@@ -1,5 +1,7 @@
 //=============================================================================
-// trng_top.v — Top-level TRNG system for Nexys A7
+// Name : Muhammad Saad Bin Waqas
+// Module Name : trng_top.v — Top-level TRNG system for Nexys A7
+//=============================================================================
 //
 // Signal flow:
 //   ring oscillators → XOR → synchroniser → decimation → raw bits
@@ -8,13 +10,13 @@
 //   corrected bits → 8-bit shift register → UART TX → laptop
 //
 // Controls:
-//   SW[0]  = freeze display (1 = hold, 0 = run)
-//   CPU_RESETN = active-low system reset
+//   SW[0] = freeze display (1 = hold, 0 = run)
+//   CPU_RESETN= active-low system reset
 //
 // Outputs:
 //   7-segment (rightmost 4 digits): current 16-bit random word in hex
-//   LED[0]        : raw entropy bit (toggles fast — appears dim)
-//   LED[1]        : corrected-bit valid pulse (brief flickers)
+//   LED[0]        :raw entropy bit (toggles fast — appears dim)
+//   LED[1]        :corrected-bit valid pulse (brief flickers)
 //   LED[9:2]      : last 8 corrected bits
 //   LED[15]       : heartbeat (slow blink proving the design is alive)
 //   UART_RXD_OUT  : 115200-baud stream of corrected bytes to laptop
@@ -33,7 +35,7 @@ module trng_top (
     wire rst = ~CPU_RESETN;
 
     //==================================================================
-    // 1.  ENTROPY SOURCE
+    // 1.ENTROPY SOURCE
     //==================================================================
     wire       raw_bit;
     wire       raw_valid;
@@ -50,7 +52,7 @@ module trng_top (
     );
 
     //==================================================================
-    // 2.  VON NEUMANN CORRECTOR
+    // 2.VON NEUMANN CORRECTOR
     //==================================================================
     wire corr_bit;
     wire corr_valid;
@@ -65,7 +67,7 @@ module trng_top (
     );
 
     //==================================================================
-    // 3.  COLLECT CORRECTED BITS → 16-BIT WORD FOR DISPLAY
+    // 3.COLLECT CORRECTED BITS (which is) 16-BIT WORD FOR DISPLAY
     //==================================================================
     reg [15:0] random_word;
 
@@ -77,7 +79,7 @@ module trng_top (
     end
 
     //==================================================================
-    // 4.  7-SEGMENT DISPLAY
+    // 4.7-SEGMENT DISPLAY
     //==================================================================
     seven_seg_ctrl u_display (
         .clk         (clk),
@@ -89,7 +91,7 @@ module trng_top (
     );
 
     //==================================================================
-    // 5.  COLLECT CORRECTED BITS → 8-BIT BYTE FOR UART
+    // 5.COLLECT CORRECTED BITS → 8-BIT BYTE FOR UART
     //==================================================================
     reg [7:0] uart_byte_shift;
     reg [7:0] uart_byte_out;
@@ -120,7 +122,7 @@ module trng_top (
     end
 
     //==================================================================
-    // 6.  UART TRANSMITTER
+    // 6.UART TRANSMITTER
     //==================================================================
     uart_tx #(
         .CLK_FREQ (100_000_000),
@@ -135,7 +137,7 @@ module trng_top (
     );
 
     //==================================================================
-    // 7.  LED INDICATORS
+    // 7.LED INDICATORS
     //==================================================================
     // Heartbeat — blink LED[15] slowly so you know the design is running
     reg [25:0] heartbeat_cnt;
@@ -154,9 +156,9 @@ module trng_top (
     end
 
     assign LED[0]    = raw_bit;                     // raw entropy
-    assign LED[1]    = corr_valid;                   // corrector output pulse
-    assign LED[9:2]  = last_8_bits;                  // recent corrected bits
+    assign LED[1]= corr_valid;                   // corrector output pulse
+    assign LED[9:2] = last_8_bits;                  // recent corrected bits
     assign LED[14:10]= 5'b0;
-    assign LED[15]   = heartbeat_cnt[25];            // ~1.5 Hz blink
+    assign LED[15] =heartbeat_cnt[25];            // ~1.5 Hz blink
 
 endmodule
