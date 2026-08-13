@@ -69,6 +69,7 @@ scripts/
 docs/
   figures/               architecture diagrams
   reports/                full IEEE-format report (PDF), poster (PDF), slide deck (PDF)
+demonstartion/           Video_file,GUI Visulaization etc.
 ```
 
 ## Building it
