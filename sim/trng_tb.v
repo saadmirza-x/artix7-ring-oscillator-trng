@@ -1,12 +1,14 @@
 //=============================================================================
-// trng_tb.v — Functional testbench for the TRNG pipeline
+// Name : Muhammad Saad Bin Waqas
+// Module Name : trng_tb.v — Functional testbench for the TRNG pipeline
+//================================================================================
 //
 // IMPORTANT: Ring oscillators do NOT oscillate in behavioral simulation
-// (there are no real gate delays).  This testbench therefore tests
+// (there are no real gate delays).This testbench therefore tests
 // everything DOWNSTREAM of the entropy source:
-//   • Von Neumann corrector logic (bias removal)
-//   • 7-segment display driver (hex decoding, multiplexing, freeze)
-//   • UART transmitter (framing, baud timing)
+//   1. Von Neumann corrector logic (bias removal)
+//   2.7-segment display driver (hex decoding, multiplexing, freeze)
+//   3. UART transmitter (framing, baud timing)
 //
 // The entropy source is exercised with a manually-driven stimulus that
 // mimics what the real hardware would produce.
