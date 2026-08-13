@@ -1,8 +1,10 @@
 //=============================================================================
-// seven_seg_ctrl.v — 4-digit hex display for Nexys A7
+// Name : Muhammad Saad Bin Waqas
+// Module Name :  seven_seg_ctrl.v — 4-digit hex display for Nexys A7
+//=============================================================================
 //
-// Displays a 16-bit value as four hex digits on the rightmost four
-// 7-segment digits.  The remaining four anodes are kept off.
+//Displays a 16-bit value as four hex digits on the rightmost four
+//7-segment digits.The remaining four anodes are kept off.
 //
 // FREEZE input: when high, the displayed value stops updating (the
 // internal register holds its last value).  When low, it tracks
@@ -16,12 +18,12 @@ module seven_seg_ctrl (
     input  wire        rst,
     input  wire [15:0] display_val,
     input  wire        freeze,         // SW[0]
-    output reg  [7:0]  an,             // anodes  (active low)
-    output reg  [6:0]  seg             // cathodes (active low)  segments a–g
+    output reg  [7:0]  an,             //anodes  (active low)
+    output reg  [6:0]  seg             //cathodes (active low)  segments a–g
 );
 
     //------------------------------------------------------------------
-    // Freeze register
+    //Freeze register
     //------------------------------------------------------------------
     reg [15:0] held_val;
 
@@ -33,7 +35,7 @@ module seven_seg_ctrl (
     end
 
     //------------------------------------------------------------------
-    // Refresh counter — upper 2 bits select which digit is active
+    // Refresh counter—upper 2 bits select which digit is active
     //------------------------------------------------------------------
     reg [19:0] refresh_cnt;
 
@@ -47,12 +49,12 @@ module seven_seg_ctrl (
     wire [1:0] digit_sel = refresh_cnt[19:18];
 
     //------------------------------------------------------------------
-    // Digit mux — pick the 4-bit nibble for the active digit
+    //Digit mux—pick the 4-bit nibble for the active digit
     //------------------------------------------------------------------
     reg [3:0] hex_digit;
 
     always @(*) begin
-        an = 8'hFF;                         // all digits off by default
+        an = 8'hFF;                         //all digits off by default
         case (digit_sel)
             2'd0: begin an[0] = 1'b0; hex_digit = held_val[ 3: 0]; end
             2'd1: begin an[1] = 1'b0; hex_digit = held_val[ 7: 4]; end
@@ -62,19 +64,11 @@ module seven_seg_ctrl (
         endcase
     end
 
-    //------------------------------------------------------------------
+    //---------------------------------------------------------------------------
     // Hex → 7-segment decoder   (active low: 0 lights a segment)
-    //
-    //       a
-    //      ---
-    //  f |     | b
-    //      -g-
-    //  e |     | c
-    //      ---
-    //       d
-    //
     // Bit order: seg = {g, f, e, d, c, b, a}
-    //------------------------------------------------------------------
+    // For furhter information please see the 7 segment display circuit diagram
+    //---------------------------------------------------------------------------
     always @(*) begin
         case (hex_digit)
             //                gfedcba
