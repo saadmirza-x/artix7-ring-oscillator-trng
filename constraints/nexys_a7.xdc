@@ -1,4 +1,7 @@
-## ==========================================================================
+## =============================================================================
+## Name : Muhammad Saad Bin Waqas
+## Module Name : Constraint (.xdc file)
+## ================================================================================
 ## Nexys A7 (Artix-7) — Pin constraints for TRNG project
 ##
 ## Active pins only.  Active-low reset button, 16 switches, 16 LEDs,
