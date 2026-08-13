@@ -9,8 +9,7 @@ Five free-running ring oscillators, XOR-combined and deliberately driven into me
 > *The number on the display isn't calculated. It's measured.*
 
 ---
-## Board Used
-(docs/figures/Board_Use.jpeg)
+![Board Used](docs/figures/Board_Use.jpeg)
 ## Why this exists
 
 A pseudorandom generator is a formula: same seed, same output, forever. Every key, nonce, and session token that depends on one is only as unpredictable as its seed. To get a value nobody could predict in advance, you have to stop computing and measure something physical instead. This project measures thermal noise inside the FPGA's own silicon, using nothing but the chip's general-purpose logic fabric.
